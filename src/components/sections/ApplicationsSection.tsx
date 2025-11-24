@@ -519,7 +519,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
             }}
           >
             <img
-              src="/src/assets/{148DCD25-7111-42CF-AFEF-36A4C8400F43}.png"
+              src="/rezzy-logo-alt.png"
               alt="Rezzy App Mockup"
               style={{
                 width: '100%',
