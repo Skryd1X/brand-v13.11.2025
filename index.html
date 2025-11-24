@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Правильный вьюпорт под мобилки + выезд под safe-area -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+    />
+
+    <!-- Базовые мета -->
+    <title>Rezzy Brandbook — фирменный стиль платформы</title>
+    <meta
+      name="description"
+      content="Rezzy Brandbook — стиль, цвета, UI-система и примеры применения фирменного стиля сервиса онлайн-бронирования Rezzy."
+    />
+
+    <!-- Иконка -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Цвет статус-бара / адресной строки -->
+    <meta name="theme-color" content="#050616" />
+
+    <!-- iOS PWA / fullscreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Rezzy Brandbook" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Rezzy Brandbook — фирменный стиль" />
+    <meta
+      property="og:description"
+      content="Гайд по визуальной идентике, UI-системе и офлайн-носителям бренда Rezzy."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://brand-v13-11-2025.netlify.app" />
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rezzy Brandbook — фирменный стиль" />
+    <meta
+      name="twitter:description"
+      content="Фирменные цвета, типографика, UI и примеры применения бренда Rezzy."
+    />
+    <meta name="twitter:image" content="https://brand-v13-11-2025.netlify.app" />
+
+    <!-- Подключение шрифта (если используешь Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    style="
+      margin: 0;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      background: #050616;
+    "
+  >
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

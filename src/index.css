@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== СБРОС / БАЗА ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 2rem;
+}
+
+body {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ===== БАЗОВЫЙ ПАДДИНГ СЕКЦИЙ ===== */
+
+.section-padding {
+  padding: clamp(4rem, 8vh, 6rem)
+    clamp(1.5rem, 5vw, 8rem)
+    clamp(4rem, 8vh, 6rem)
+    clamp(6rem, 15vw, 12rem);
+}
+
+/* ===== МОБИЛКА (до 768px) ===== */
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 80px;
+  }
+
+  .section-padding {
+    padding: clamp(3rem, 6vh, 4rem) clamp(1.5rem, 4vw, 2rem) !important;
+  }
+
+  /* Респонсивный текст */
+  h1 {
+    font-size: clamp(2rem, 8vw, 3rem) !important;
+  }
+  h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem) !important;
+  }
+  h3 {
+    font-size: clamp(1.25rem, 5vw, 1.5rem) !important;
+  }
+  p {
+    font-size: clamp(1rem, 3vw, 1.125rem) !important;
+  }
+
+  /* Крупнее тапы */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ===== ТАБЛЕТ (769–1024px) ===== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .section-padding {
+    padding: 4rem 3rem !important;
+  }
+}
+
+/* ===== SAFE AREA ДЛЯ iOS ===== */
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ===== ПЕЧАТЬ ===== */
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 5mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  section {
+    page-break-inside: avoid;
+    page-break-after: always;
+  }
+
+  button {
+    display: none !important;
+  }
+
+  nav {
+    display: none !important;
+  }
+}
