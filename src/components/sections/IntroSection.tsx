@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { theme } from '../../theme';
 import NeoCard from '../NeoCard';
 import { Language, translations } from '../../i18n/translations';
+import rezzyLogoMain from '../../assets/rezzy-logo-main.png';
+
 
 interface IntroSectionProps {
   language: Language;
@@ -142,7 +144,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
 
                 {/* Сам логотип без рамки */}
                 <img
-                  src="/src/assets/{B620A630-29AF-4A07-A8E3-8238DCB61CD6}.png"
+                  src="/src/assets/rezzy-logo-main.png"
                   alt="Rezzy Logo"
                   style={{
                     width: '100%',

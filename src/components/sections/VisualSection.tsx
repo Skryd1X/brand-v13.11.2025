@@ -4,6 +4,8 @@ import NeoCard from '../NeoCard';
 import ColorPalette from '../ColorPalette';
 import { Check, X } from 'lucide-react';
 import { Language } from '../../i18n/translations';
+import rezzyLogoMain from '../../assets/rezzy-logo-main.png';
+
 
 interface VisualSectionProps {
   language: Language;
@@ -50,7 +52,7 @@ export default function VisualSection({ }: VisualSectionProps) {
             }}
           >
             <img
-              src="/src/assets/{B620A630-29AF-4A07-A8E3-8238DCB61CD6}.png"
+              src="/src/assets/rezzy-logo-alt.png"
               alt="Rezzy Logo"
               style={{
                 width: '220px',
