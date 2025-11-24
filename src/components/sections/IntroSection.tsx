@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { theme } from '../../theme';
 import NeoCard from '../NeoCard';
 import { Language, translations } from '../../i18n/translations';
-import rezzyLogoMain from '../../assets/rezzy-logo-main.png';
-
 
 interface IntroSectionProps {
   language: Language;
@@ -130,7 +128,6 @@ export default function IntroSection({ language }: IntroSectionProps) {
                     background:
                       'radial-gradient(circle at center, rgba(22, 160, 133, 1) 0%, rgba(22, 160, 133, 0.45) 35%, transparent 70%)',
                     pointerEvents: 'none',
-                    // без transform/transition здесь — ими управляет анимация
                     animation: logoHovered
                       ? 'logoPulseGlow 2s ease-in-out infinite'
                       : 'none',
@@ -144,7 +141,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
 
                 {/* Сам логотип без рамки */}
                 <img
-                  src="/src/assets/rezzy-logo-main.png"
+                  src="/rezzy-logo-main.png"
                   alt="Rezzy Logo"
                   style={{
                     width: '100%',

@@ -4,14 +4,12 @@ import NeoCard from '../NeoCard';
 import ColorPalette from '../ColorPalette';
 import { Check, X } from 'lucide-react';
 import { Language } from '../../i18n/translations';
-import rezzyLogoMain from '../../assets/rezzy-logo-main.png';
-
 
 interface VisualSectionProps {
   language: Language;
 }
 
-export default function VisualSection({ }: VisualSectionProps) {
+export default function VisualSection({}: VisualSectionProps) {
   return (
     <section
       id="visual"
@@ -52,7 +50,7 @@ export default function VisualSection({ }: VisualSectionProps) {
             }}
           >
             <img
-              src="/src/assets/rezzy-logo-alt.png"
+              src="/rezzy-logo-alt.png"
               alt="Rezzy Logo"
               style={{
                 width: '220px',
@@ -404,22 +402,20 @@ export default function VisualSection({ }: VisualSectionProps) {
                 gap: '0.75rem',
               }}
             >
-              {['Ресторан', 'Кофейня', 'ПК-клуб', 'Автомойка'].map(
-                (item) => (
-                  <div
-                    key={item}
-                    style={{
-                      padding: '0.5rem 1rem',
-                      background: theme.colors.baseBlueGreen,
-                      borderRadius: theme.borderRadius.sm,
-                      fontSize: '0.875rem',
-                      color: theme.colors.lightGray,
-                    }}
-                  >
-                    {item}
-                  </div>
-                )
-              )}
+              {['Ресторан', 'Кофейня', 'ПК-клуб', 'Автомойка'].map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    background: theme.colors.baseBlueGreen,
+                    borderRadius: theme.borderRadius.sm,
+                    fontSize: '0.875rem',
+                    color: theme.colors.lightGray,
+                  }}
+                >
+                  {item}
+                </div>
+              ))}
             </div>
           </NeoCard>
 
