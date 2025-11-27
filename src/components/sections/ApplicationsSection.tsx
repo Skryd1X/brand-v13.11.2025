@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Language } from '../../i18n/translations';
 import { theme } from '../../theme';
 import SectionHeader from '../SectionHeader';
@@ -15,13 +16,89 @@ import {
   Shirt,
   Building,
   Car,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 interface ApplicationsSectionProps {
   language: Language;
 }
 
+// Ключи галерей = разделы
+type GalleryKey =
+  | 'vizit'
+  | 'merch'
+  | 'email'
+  | 'pencAndBook'
+  | 'buklet'
+  | 'podarKard';
+
+// Реальные картинки из public/... (только существующие файлы)
+const galleries: Record<GalleryKey, string[]> = {
+  vizit: ['/vizit/viz2.png', '/vizit/vizit1.png'],
+  merch: [
+    '/merch/fut.png',
+    '/merch/hud.png',
+    '/merch/kovrik.png',
+    '/merch/paket.png',
+    '/merch/svit.png',
+    '/merch/kruj.png',
+  ],
+  email: ['/email/gmail.png'],
+  pencAndBook: ['/penc and book/blok.png', '/penc and book/ruch.png'],
+  buklet: ['/buklet/buklet.png', '/buklet/baner.png', '/buklet/baner2.png'],
+  podarKard: ['/podar kard/podaroch.png'],
+};
+
+const galleryTitles: Record<GalleryKey, string> = {
+  vizit: 'Визитки команды',
+  merch: 'Мерч (футболки, кружки)',
+  email: 'Email-рассылки',
+  pencAndBook: 'Ручки/блокноты',
+  buklet: 'Буклеты и плакаты',
+  podarKard: 'Подарочные карты',
+};
+
 export default function ApplicationsSection({}: ApplicationsSectionProps) {
+  const [activeGallery, setActiveGallery] = useState<GalleryKey | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const openGallery = (key: GalleryKey) => {
+    setActiveGallery(key);
+    setLightboxIndex(null);
+  };
+
+  const closeGallery = () => {
+    setActiveGallery(null);
+    setLightboxIndex(null);
+  };
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
+  };
+
+  const currentImages =
+    activeGallery !== null ? galleries[activeGallery] : [];
+
+  const showPrev = () => {
+    if (!activeGallery || currentImages.length === 0) return;
+    setLightboxIndex(prev =>
+      prev === null ? 0 : (prev - 1 + currentImages.length) % currentImages.length,
+    );
+  };
+
+  const showNext = () => {
+    if (!activeGallery || currentImages.length === 0) return;
+    setLightboxIndex(prev =>
+      prev === null ? 0 : (prev + 1) % currentImages.length,
+    );
+  };
+
   return (
     <section
       id="applications"
@@ -66,6 +143,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                 background: theme.colors.baseBlueGreen,
                 borderRadius: theme.borderRadius.sm,
                 padding: '1.5rem',
+                border: '1px solid rgba(0,255,200,0.15)',
               }}
             >
               <div
@@ -106,6 +184,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                 background: theme.colors.baseBlueGreen,
                 borderRadius: theme.borderRadius.sm,
                 padding: '1.5rem',
+                border: '1px solid rgba(0,255,200,0.15)',
               }}
             >
               <div
@@ -172,6 +251,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                 background: theme.colors.baseBlueGreen,
                 borderRadius: theme.borderRadius.sm,
                 padding: '1.5rem',
+                border: '1px solid rgba(0,255,200,0.15)',
               }}
             >
               <div
@@ -238,6 +318,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                 background: theme.colors.baseBlueGreen,
                 borderRadius: theme.borderRadius.sm,
                 padding: '1.5rem',
+                border: '1px solid rgba(0,255,200,0.15)',
               }}
             >
               <div
@@ -276,7 +357,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
           </div>
         </NeoCard>
 
-        {/* ДЛЯ ПАРТНЕРОВ */}
+        {/* ДЛЯ ПАРТНЁРОВ */}
         <NeoCard style={{ marginBottom: '3rem' }}>
           <h3
             style={{
@@ -333,6 +414,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                     display: 'flex',
                     alignItems: 'flex-start',
                     gap: '1rem',
+                    border: '1px solid rgba(0,255,200,0.15)',
                   }}
                 >
                   <Icon
@@ -395,17 +477,19 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
             }}
           >
             {[
-              { icon: FileText, title: 'Визитки команды' },
-              { icon: Shirt, title: 'Мерч (футболки, кружки)' },
-              { icon: Mail, title: 'Email-рассылки' },
-              { icon: FileText, title: 'Ручки/блокноты' },
-              { icon: FileText, title: 'Буклеты и плакаты' },
-              { icon: FileText, title: 'Подарочные карты' },
+              { id: 'vizit' as GalleryKey, icon: FileText, title: 'Визитки команды' },
+              { id: 'merch' as GalleryKey, icon: Shirt, title: 'Мерч (футболки, кружки)' },
+              { id: 'email' as GalleryKey, icon: Mail, title: 'Email-рассылки' },
+              { id: 'pencAndBook' as GalleryKey, icon: FileText, title: 'Ручки/блокноты' },
+              { id: 'buklet' as GalleryKey, icon: FileText, title: 'Буклеты и плакаты' },
+              { id: 'podarKard' as GalleryKey, icon: FileText, title: 'Подарочные карты' },
             ].map((item, i) => {
               const Icon = item.icon;
               return (
-                <div
+                <button
                   key={i}
+                  type="button"
+                  onClick={() => openGallery(item.id)}
                   style={{
                     background: theme.colors.baseBlueGreen,
                     borderRadius: theme.borderRadius.sm,
@@ -413,6 +497,27 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
+                    border: '1px solid rgba(0,255,200,0.18)',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                    transition:
+                      'transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease',
+                    boxShadow: '0 0 0 rgba(0,0,0,0)',
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLButtonElement;
+                    el.style.transform = 'translateY(-2px)';
+                    el.style.boxShadow =
+                      '0 14px 30px rgba(0,0,0,0.5)';
+                    el.style.borderColor = 'rgba(0,255,200,0.7)';
+                    el.style.background = '#062d3f';
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLButtonElement;
+                    el.style.transform = 'translateY(0)';
+                    el.style.boxShadow = '0 0 0 rgba(0,0,0,0)';
+                    el.style.borderColor = 'rgba(0,255,200,0.18)';
+                    el.style.background = theme.colors.baseBlueGreen;
                   }}
                 >
                   <Icon
@@ -429,7 +534,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                   >
                     {item.title}
                   </span>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -477,6 +582,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.75rem',
+                    border: '1px solid rgba(0,255,200,0.08)',
                   }}
                 >
                   <Icon
@@ -516,6 +622,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
+              border: '1px solid rgba(0,255,200,0.15)',
             }}
           >
             <img
@@ -576,6 +683,7 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    border: '1px solid rgba(0,255,200,0.12)',
                   }}
                 >
                   <span
@@ -616,6 +724,380 @@ export default function ApplicationsSection({}: ApplicationsSectionProps) {
       >
         05 / ПРИМЕНЕНИЕ СТИЛЯ
       </div>
+
+      {/* МОДАЛЬНАЯ ГАЛЕРЕЯ: сетка превью */}
+      {activeGallery && (
+        <div
+          onClick={closeGallery}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 8, 20, 0.92)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 9998,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: 'clamp(1rem, 3vw, 2rem)',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '1100px',
+              maxHeight: '90vh',
+              background: theme.colors.baseBlueGreen,
+              borderRadius: theme.borderRadius.lg || theme.borderRadius.md,
+              boxShadow: '0 24px 48px rgba(0,0,0,0.6)',
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+              border: '1px solid rgba(0,255,200,0.28)',
+            }}
+          >
+            <div
+              style={{
+                padding: '0.9rem 1.6rem',
+                borderBottom: `1px solid ${theme.colors.baseNavy}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                gap: '1rem',
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    fontSize: '0.75rem',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: theme.colors.mediumGray,
+                    marginBottom: '0.25rem',
+                  }}
+                >
+                  Галерея материалов
+                </div>
+                <h4
+                  style={{
+                    fontSize: '1.35rem',
+                    fontWeight: 700,
+                    color: theme.colors.white,
+                  }}
+                >
+                  {galleryTitles[activeGallery]}
+                </h4>
+              </div>
+              <button
+                type="button"
+                onClick={closeGallery}
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  color: theme.colors.lightGray,
+                  cursor: 'pointer',
+                  padding: '0.25rem',
+                }}
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            <div
+              style={{
+                padding: '1.4rem 1.6rem 1.6rem',
+                overflow: 'hidden',
+              }}
+            >
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns:
+                    'repeat(auto-fit, minmax(150px, 1fr))',
+                  gap: '1.1rem',
+                  maxHeight: 'calc(90vh - 120px)',
+                  overflowY: 'auto',
+                  paddingRight: '0.2rem',
+                }}
+              >
+                {currentImages.map((src, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => openLightbox(i)}
+                    style={{
+                      border: 'none',
+                      background: 'transparent',
+                      cursor: 'pointer',
+                      padding: 0,
+                      borderRadius: theme.borderRadius.sm,
+                      overflow: 'visible',
+                      position: 'relative',
+                      paddingInline: '2px',
+                      paddingBlock: '2px',
+                      boxShadow:
+                        '0 0 0 1px rgba(0,255,200,0.18)',
+                      transition:
+                        'transform 0.18s ease, box-shadow 0.18s ease',
+                      zIndex: 1,
+                    }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLButtonElement;
+                      el.style.transform = 'translateY(-2px)';
+                      el.style.boxShadow =
+                        '0 0 0 2px rgba(0,255,200,0.95), 0 10px 24px rgba(0,0,0,0.55)';
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLButtonElement;
+                      el.style.transform = 'translateY(0)';
+                      el.style.boxShadow =
+                        '0 0 0 1px rgba(0,255,200,0.18)';
+                    }}
+                  >
+                    <div
+                      style={{
+                        borderRadius: theme.borderRadius.sm,
+                        overflow: 'hidden',
+                        background: 'rgba(0,20,34,0.95)',
+                      }}
+                    >
+                      <img
+                        src={src}
+                        alt=""
+                        style={{
+                          width: '100%',
+                          height: '140px',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ЛАЙТБОКС: большое фото + стрелки + нижний слайдер */}
+      {activeGallery &&
+        lightboxIndex !== null &&
+        currentImages[lightboxIndex] && (
+          <div
+            onClick={closeLightbox}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0, 5, 15, 0.94)',
+              backdropFilter: 'blur(6px)',
+              zIndex: 9999,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 'clamp(0.5rem, 3vw, 1.5rem)',
+            }}
+          >
+            <div
+              onClick={e => e.stopPropagation()}
+              style={{
+                position: 'relative',
+                width: '100%',
+                maxWidth: '960px',
+                maxHeight: '88vh',
+                background: theme.colors.baseBlueGreen,
+                borderRadius: theme.borderRadius.lg || theme.borderRadius.md,
+                boxShadow: '0 28px 60px rgba(0,0,0,0.75)',
+                border: '1px solid rgba(0,255,200,0.5)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'stretch',
+                overflow: 'hidden',
+              }}
+            >
+              <button
+                type="button"
+                onClick={closeLightbox}
+                style={{
+                  position: 'absolute',
+                  top: '0.6rem',
+                  right: '0.8rem',
+                  border: 'none',
+                  background: 'rgba(0,0,0,0.35)',
+                  borderRadius: '999px',
+                  width: '32px',
+                  height: '32px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: theme.colors.lightGray,
+                  cursor: 'pointer',
+                  zIndex: 2,
+                }}
+              >
+                <X size={18} />
+              </button>
+
+              {/* Основное изображение */}
+              <div
+                style={{
+                  flex: 1,
+                  padding: 'clamp(1.2rem, 3vw, 1.8rem) clamp(1.4rem, 3vw, 2.1rem)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background: theme.colors.baseNavy,
+                }}
+              >
+                <img
+                  src={currentImages[lightboxIndex]}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxHeight: '70vh',
+                    objectFit: 'contain',
+                    borderRadius: theme.borderRadius.md,
+                    boxShadow: '0 0 0 1px rgba(0,255,200,0.3)',
+                  }}
+                />
+              </div>
+
+              {/* Нижний слайдер превью */}
+              {currentImages.length > 1 && (
+                <div
+                  style={{
+                    padding: '0.7rem 1.4rem 1rem',
+                    background: 'rgba(2, 30, 46, 0.98)',
+                    borderTop: '1px solid rgba(0,255,200,0.18)',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.6rem',
+                      overflowX: 'auto',
+                      paddingBottom: '0.35rem',
+                    }}
+                  >
+                    {currentImages.map((src, i) => (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setLightboxIndex(i)}
+                        style={{
+                          border: 'none',
+                          background: 'transparent',
+                          cursor: 'pointer',
+                          flex: '0 0 auto',
+                          width: '80px',
+                          height: '56px',
+                          borderRadius: theme.borderRadius.sm,
+                          overflow: 'hidden',
+                          position: 'relative',
+                          boxShadow:
+                            i === lightboxIndex
+                              ? '0 0 0 2px rgba(0,255,200,0.95)'
+                              : '0 0 0 1px rgba(0,255,200,0.35)',
+                          opacity: i === lightboxIndex ? 1 : 0.72,
+                          transform:
+                            i === lightboxIndex ? 'translateY(0)' : 'translateY(1px)',
+                          transition:
+                            'opacity 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease',
+                          background: 'rgba(0,14,26,0.95)',
+                        }}
+                      >
+                        <img
+                          src={src}
+                          alt=""
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            display: 'block',
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                  <div
+                    style={{
+                      marginTop: '0.3rem',
+                      fontSize: '0.75rem',
+                      color: theme.colors.mediumGray,
+                      textAlign: 'center',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {lightboxIndex + 1} / {currentImages.length}
+                  </div>
+                </div>
+              )}
+
+              {/* Стрелки навигации поверх */}
+              {currentImages.length > 1 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    pointerEvents: 'none',
+                    padding: '0 0.8rem',
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation();
+                      showPrev();
+                    }}
+                    style={{
+                      pointerEvents: 'auto',
+                      border: 'none',
+                      background: 'rgba(0, 0, 0, 0.45)',
+                      borderRadius: '999px',
+                      width: '40px',
+                      height: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      color: theme.colors.accentPrimary,
+                    }}
+                  >
+                    <ChevronLeft size={22} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={e => {
+                      e.stopPropagation();
+                      showNext();
+                    }}
+                    style={{
+                      pointerEvents: 'auto',
+                      border: 'none',
+                      background: 'rgba(0, 0, 0, 0.45)',
+                      borderRadius: '999px',
+                      width: '40px',
+                      height: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      color: theme.colors.accentPrimary,
+                    }}
+                  >
+                    <ChevronRight size={22} />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
     </section>
   );
 }

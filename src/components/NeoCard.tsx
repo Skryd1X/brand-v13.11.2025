@@ -1,7 +1,7 @@
-import { ReactNode, CSSProperties } from 'react';
+import { ReactNode, CSSProperties, HTMLAttributes } from 'react';
 import { theme } from '../theme';
 
-interface NeoCardProps {
+interface NeoCardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   gradient?: string;
   style?: CSSProperties;
@@ -13,17 +13,22 @@ export default function NeoCard({
   gradient,
   style,
   hover = false,
+  ...rest
 }: NeoCardProps) {
   return (
     <div
+      {...rest}
       style={{
-        background: gradient || theme.colors.baseNavy,
-        borderRadius: theme.borderRadius.md,
-        padding: 'clamp(1.5rem, 4vw, 2rem)',
-        boxShadow: theme.shadows.neo,
-        transition: 'all 0.3s ease',
         position: 'relative',
-        willChange: hover ? 'transform, box-shadow' : undefined,
+        borderRadius: theme.borderRadius.md,
+        background:
+          gradient ||
+          'linear-gradient(135deg, rgba(13, 32, 63, 0.98), rgba(8, 20, 45, 0.98))',
+        boxShadow: theme.shadows.neo,
+        padding: 'clamp(1.5rem, 3vw, 2rem)',
+        overflow: 'hidden',
+        transition:
+          'transform 0.25s ease, box-shadow 0.25s ease, background 0.35s ease',
         ...style,
       }}
       onMouseEnter={(e) => {
@@ -31,11 +36,17 @@ export default function NeoCard({
           e.currentTarget.style.transform = 'translateY(-4px)';
           e.currentTarget.style.boxShadow = theme.shadows.glowStrong;
         }
+        if (rest.onMouseEnter) {
+          rest.onMouseEnter(e);
+        }
       }}
       onMouseLeave={(e) => {
         if (hover) {
           e.currentTarget.style.transform = 'translateY(0)';
           e.currentTarget.style.boxShadow = theme.shadows.neo;
+        }
+        if (rest.onMouseLeave) {
+          rest.onMouseLeave(e);
         }
       }}
     >

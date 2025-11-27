@@ -9,13 +9,14 @@ import ToneSection from './components/sections/ToneSection';
 import VisualSection from './components/sections/VisualSection';
 import ApplicationsSection from './components/sections/ApplicationsSection';
 import UISystemSection from './components/sections/UISystemSection';
-import ExtrasSection from './components/sections/ExtrasSection';
+// import ExtrasSection from './components/sections/ExtrasSection';
 import { Language, translations } from './i18n/translations';
 
 function App() {
   const [activeSection, setActiveSection] = useState('intro');
   const [currentLanguage, setCurrentLanguage] = useState<Language>('ru');
 
+  // Подсветка активной секции при скролле
   useEffect(() => {
     const sectionIds = [
       'intro',
@@ -24,7 +25,7 @@ function App() {
       'tone',
       'visual',
       'applications',
-      'ui', // без extras – навигация только по основным разделам
+      'ui',          // до UI-системы, без extras
     ];
 
     const handleScroll = () => {
@@ -46,7 +47,7 @@ function App() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // выставляем активный раздел при первой загрузке
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -55,12 +56,10 @@ function App() {
     const element = document.getElementById(sectionId);
     if (!element) return;
 
-    // сразу подсвечиваем пункт в навигации
     setActiveSection(sectionId);
 
-    // аккуратный скролл с небольшим отступом сверху
     const rect = element.getBoundingClientRect();
-    const offset = 80; // можно подправить, если нужно выше/ниже
+    const offset = 80;
     const targetY = rect.top + window.scrollY - offset;
 
     window.scrollTo({
@@ -90,14 +89,14 @@ function App() {
         onLanguageChange={handleLanguageChange}
       />
 
-      <IntroSection language={currentLanguage} />
+      <IntroSection language={currentLanguage} onNavigate={handleNavigate} />
       <IdeologySection language={currentLanguage} />
       <AudienceSection language={currentLanguage} />
       <ToneSection language={currentLanguage} />
       <VisualSection language={currentLanguage} />
       <ApplicationsSection language={currentLanguage} />
       <UISystemSection language={currentLanguage} />
-      <ExtrasSection language={currentLanguage} />
+      {/* ExtrasSection убран */}
 
       <footer
         style={{

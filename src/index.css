@@ -116,3 +116,55 @@ body {
     display: none !important;
   }
 }
+
+/* ===== БРЕНДБУК: модалки и навигация ===== */
+
+/* плавное исчезновение навигации слева, когда открыт разворот */
+nav {
+  transition: opacity 0.25s ease;
+}
+
+body.brandbook-modal-open nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Блок со скроллом внутри модалки "Целевая аудитория" */
+.audience-modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #22f2bf transparent;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Неоновый скроллбар — только десктоп, чтобы мобилка не лагала */
+@media (min-width: 769px) {
+  .audience-modal-scroll::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .audience-modal-scroll::-webkit-scrollbar-track {
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0),
+      rgba(15, 23, 42, 0.9),
+      rgba(15, 23, 42, 0)
+    );
+    border-radius: 999px;
+    margin: 6px 0;
+  }
+
+  .audience-modal-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #22f2bf, #38bdf8);
+    border-radius: 999px;
+    box-shadow:
+      0 0 0 2px #020617,
+      0 0 18px rgba(34, 211, 238, 0.9);
+  }
+
+  .audience-modal-scroll::-webkit-scrollbar-thumb:hover {
+    box-shadow:
+      0 0 0 2px #020617,
+      0 0 26px rgba(34, 211, 238, 1);
+  }
+}

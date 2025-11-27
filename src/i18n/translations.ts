@@ -101,7 +101,7 @@ export const translations = {
       note: { title: 'Примечание', text: 'Все визуальные элементы выделяются неоморфным стилем. Реальные материалы будут добавлены после производства первой партии мерча.' },
     },
     notification: { success: 'Успешно забронировано!', confirmation: 'Мы отправили подтверждение на вашу почту', restaurant: 'Ресторан', time: 'Время', guests: 'Гостей', bookedFor: 'Забронировано на', name: 'Шукуров Амаль', bookingNumber: 'Номер бронирования', okBtn: 'Отлично' },
-    footer: 'Брендбук © 2025. Все права защищены.',
+    footer: 'Brandbook © 2025. All rights reserved.',
   },
   en: {
     intro: {

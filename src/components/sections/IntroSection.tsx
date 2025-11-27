@@ -5,15 +5,26 @@ import { Language, translations } from '../../i18n/translations';
 
 interface IntroSectionProps {
   language: Language;
+  onNavigate: (sectionId: string) => void;
 }
 
-export default function IntroSection({ language }: IntroSectionProps) {
+// Куда ведут пункты содержания
+const tocTargets: Record<number, string> = {
+  0: 'ideology',      // 1. Основы бренда / Идеология
+  1: 'audience',      // 2. Целевая аудитория
+  2: 'tone',          // 3. Tone of Voice
+  3: 'visual',        // 4. Визуальная айдентика
+  4: 'applications',  // 5. Применение стиля
+  5: 'ui',            // 6. Digital-гайдлайн / UI-система Rezzy
+};
+
+export default function IntroSection({ language, onNavigate }: IntroSectionProps) {
   const t = translations[language].intro;
   const [logoHovered, setLogoHovered] = useState(false);
 
   return (
     <>
-      {/* Явная анимация "дыхания" для свечения под логотипом */}
+      {/* анимация "дыхания" свечения под логотипом */}
       <style>
         {`
           @keyframes logoPulseGlow {
@@ -23,9 +34,9 @@ export default function IntroSection({ language }: IntroSectionProps) {
               filter: blur(14px);
             }
             50% {
-              opacity: 0.2;         /* сильно гасим */
-              transform: scale(1.18);/* заметно раздувается */
-              filter: blur(26px);   /* и сильнее размазывается */
+              opacity: 0.2;
+              transform: scale(1.18);
+              filter: blur(26px);
             }
             100% {
               opacity: 1;
@@ -36,6 +47,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
         `}
       </style>
 
+      {/* HERO */}
       <section
         id="intro"
         className="section-padding"
@@ -57,13 +69,13 @@ export default function IntroSection({ language }: IntroSectionProps) {
               alignItems: 'center',
             }}
           >
-            {/* Левый блок — текст */}
+            {/* левый текстовый блок */}
             <div>
               <div
                 style={{
                   fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                   color: theme.colors.accentPrimary,
-                  fontWeight: '700',
+                  fontWeight: 700,
                   letterSpacing: '0.15em',
                   marginBottom: 'clamp(1rem, 3vw, 2rem)',
                 }}
@@ -73,11 +85,11 @@ export default function IntroSection({ language }: IntroSectionProps) {
               <div
                 style={{
                   fontSize: 'clamp(3rem, 10vw, 6rem)',
-                  fontWeight: '900',
+                  fontWeight: 900,
                   background: theme.gradients.accent,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  lineHeight: '1.1',
+                  lineHeight: 1.1,
                   marginBottom: 'clamp(0.5rem, 2vw, 1rem)',
                 }}
               >
@@ -87,7 +99,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
                 style={{
                   fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
                   color: theme.colors.mediumGray,
-                  fontWeight: '600',
+                  fontWeight: 600,
                   marginBottom: 'clamp(2rem, 4vw, 3rem)',
                 }}
               >
@@ -97,14 +109,14 @@ export default function IntroSection({ language }: IntroSectionProps) {
                 style={{
                   fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
                   color: theme.colors.lightGray,
-                  lineHeight: '1.7',
+                  lineHeight: 1.7,
                 }}
               >
                 {t.description}
               </p>
             </div>
 
-            {/* Правый блок — логотип + «дышащая» подсветка */}
+            {/* правый блок — иконка приложения с "дышащим" свечением */}
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <div
                 style={{
@@ -119,14 +131,14 @@ export default function IntroSection({ language }: IntroSectionProps) {
                 onMouseEnter={() => setLogoHovered(true)}
                 onMouseLeave={() => setLogoHovered(false)}
               >
-                {/* Свечение под логотипом */}
+                {/* свечение */}
                 <div
                   style={{
                     position: 'absolute',
                     inset: '-16%',
-                    borderRadius: '40px',
+                    borderRadius: 40,
                     background:
-                      'radial-gradient(circle at center, rgba(22, 160, 133, 1) 0%, rgba(22, 160, 133, 0.45) 35%, transparent 70%)',
+                      'radial-gradient(circle at center, rgba(10, 186, 181, 1) 0%, rgba(10, 186, 181, 0.45) 35%, transparent 70%)',
                     pointerEvents: 'none',
                     animation: logoHovered
                       ? 'logoPulseGlow 2s ease-in-out infinite'
@@ -138,8 +150,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
                       : 'opacity 0.3s ease, filter 0.3s ease',
                   }}
                 />
-
-                {/* Сам логотип без рамки */}
+                {/* КАРТИНКА ИЗ public */}
                 <img
                   src="/rezzy-logo-main.png"
                   alt="Rezzy Logo"
@@ -147,12 +158,12 @@ export default function IntroSection({ language }: IntroSectionProps) {
                     width: '100%',
                     height: '100%',
                     objectFit: 'contain',
-                    borderRadius: '36px',
+                    borderRadius: 36,
                     transform: logoHovered ? 'scale(1.05)' : 'scale(1)',
                     transition: 'transform 0.3s ease, filter 0.3s ease',
                     filter: logoHovered
-                      ? 'drop-shadow(0 0 80px rgba(22, 160, 133, 1))'
-                      : 'drop-shadow(0 0 45px rgba(22, 160, 133, 0.7))',
+                      ? 'drop-shadow(0 0 80px rgba(10, 186, 181, 1))'
+                      : 'drop-shadow(0 0 45px rgba(10, 186, 181, 0.7))',
                     position: 'relative',
                     zIndex: 1,
                   }}
@@ -162,6 +173,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
           </div>
         </div>
 
+        {/* подпись 00 / BRAND BOOK */}
         <div
           style={{
             position: 'absolute',
@@ -169,7 +181,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
             right: '4rem',
             fontSize: '1rem',
             color: theme.colors.mediumGray,
-            fontWeight: '600',
+            fontWeight: 600,
             letterSpacing: '0.1em',
           }}
         >
@@ -177,7 +189,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
         </div>
       </section>
 
-      {/* TOC — без изменений по смыслу */}
+      {/* СОДЕРЖАНИЕ */}
       <section
         className="section-padding"
         style={{
@@ -192,10 +204,10 @@ export default function IntroSection({ language }: IntroSectionProps) {
           <div
             style={{
               fontSize: 'clamp(2.5rem, 8vw, 4rem)',
-              fontWeight: '800',
+              fontWeight: 800,
               color: theme.colors.baseBlueGreen,
               opacity: 0.3,
-              lineHeight: '1',
+              lineHeight: 1,
               marginBottom: 'clamp(1rem, 3vw, 2rem)',
             }}
           >
@@ -204,15 +216,26 @@ export default function IntroSection({ language }: IntroSectionProps) {
           <h2
             style={{
               fontSize: 'clamp(2rem, 6vw, 3rem)',
-              fontWeight: '800',
+              fontWeight: 800,
               color: theme.colors.white,
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
-              marginBottom: 'clamp(2rem, 4vw, 3rem)',
+              marginBottom: '0.75rem',
             }}
           >
             {t.tocTitle}
           </h2>
+
+          {/* тонкая тиффани-линия под заголовком */}
+          <div
+            style={{
+              width: '80px',
+              height: '3px',
+              borderRadius: 999,
+              background: theme.gradients.accent,
+              marginBottom: 'clamp(2rem, 4vw, 3rem)',
+            }}
+          />
 
           <div
             style={{
@@ -222,52 +245,122 @@ export default function IntroSection({ language }: IntroSectionProps) {
               gap: 'clamp(1rem, 3vw, 2rem)',
             }}
           >
-            {t.tocItems.map((item, index) => (
-              <NeoCard key={index} hover>
-                <div
+            {t.tocItems.map((item, index) => {
+              const targetId = tocTargets[index];
+              const isClickable = Boolean(targetId);
+
+              return (
+                <NeoCard
+                  key={item}
+                  hover={isClickable}
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '1.5rem',
+                    cursor: isClickable ? 'pointer' : 'default',
+                    padding: '1.3rem 1.5rem',
+                    borderRadius: theme.borderRadius.sm,
+                    border: '1px solid rgba(0,255,200,0.18)',
+                    background:
+                      'linear-gradient(135deg, rgba(4, 30, 45, 0.98) 0%, rgba(5, 40, 58, 0.98) 45%, rgba(4, 30, 45, 0.98) 100%)',
+                    boxShadow: '0 0 0 rgba(0,0,0,0)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    transition:
+                      'transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease',
+                  }}
+                  onClick={() => {
+                    if (targetId) onNavigate(targetId);
+                  }}
+                  onMouseEnter={e => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.transform = 'translateY(-2px)';
+                    el.style.boxShadow =
+                      '0 16px 28px rgba(0,0,0,0.55)';
+                    el.style.borderColor = 'rgba(0,255,200,0.7)';
+                    el.style.background =
+                      'linear-gradient(135deg, rgba(4, 36, 56, 1) 0%, rgba(7, 54, 74, 1) 45%, rgba(4, 36, 56, 1) 100%)';
+                  }}
+                  onMouseLeave={e => {
+                    const el = e.currentTarget as HTMLDivElement;
+                    el.style.transform = 'translateY(0)';
+                    el.style.boxShadow = '0 0 0 rgba(0,0,0,0)';
+                    el.style.borderColor = 'rgba(0,255,200,0.18)';
+                    el.style.background =
+                      'linear-gradient(135deg, rgba(4, 30, 45, 0.98) 0%, rgba(5, 40, 58, 0.98) 45%, rgba(4, 30, 45, 0.98) 100%)';
                   }}
                 >
+                  {/* ЛЁГКИЙ, НО БОЛЕЕ СЛАБЫЙ ВНУТРЕННИЙ GLOW */}
                   <div
                     style={{
-                      width: 'clamp(48px, 10vw, 56px)',
-                      height: 'clamp(48px, 10vw, 56px)',
+                      position: 'absolute',
+                      inset: 0,
                       borderRadius: theme.borderRadius.sm,
-                      background: theme.gradients.accent,
+                      border: '1px solid rgba(0,255,200,0.05)',
+                      pointerEvents: 'none',
+                      boxShadow:
+                        '0 0 26px rgba(0,255,200,0.06) inset',
+                    }}
+                  />
+
+                  <div
+                    style={{
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
+                      gap: '1.5rem',
+                      position: 'relative',
+                      zIndex: 1,
                     }}
                   >
-                    <span
+                    <div
                       style={{
-                        fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
-                        fontWeight: '800',
-                        color: theme.colors.white,
+                        width: 'clamp(48px, 10vw, 56px)',
+                        height: 'clamp(48px, 10vw, 56px)',
+                        borderRadius: theme.borderRadius.sm,
+                        background: theme.gradients.accent,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        // ЧУТЬ МЕНЬШЕ СВЕТА ВОКРУГ ЦИФРЫ
+                        boxShadow:
+                          '0 0 12px rgba(0,255,200,0.38)',
                       }}
                     >
-                      {item.charAt(0)}
-                    </span>
+                      <span
+                        style={{
+                          fontSize: 'clamp(1.25rem, 3vw, 1.5rem)',
+                          fontWeight: 800,
+                          color: theme.colors.white,
+                        }}
+                      >
+                        {index + 1}
+                      </span>
+                    </div>
+                    <div>
+                      <p
+                        style={{
+                          fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
+                          color: theme.colors.white,
+                          lineHeight: 1.6,
+                          fontWeight: 600,
+                          marginBottom: '0.15rem',
+                        }}
+                      >
+                        {item}
+                      </p>
+                      <span
+                        style={{
+                          fontSize: '0.75rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.12em',
+                          color: theme.colors.mediumGray,
+                        }}
+                      >
+                        Rezzy brand guide
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <p
-                      style={{
-                        fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
-                        color: theme.colors.white,
-                        lineHeight: '1.6',
-                        fontWeight: '600',
-                      }}
-                    >
-                      {item}
-                    </p>
-                  </div>
-                </div>
-              </NeoCard>
-            ))}
+                </NeoCard>
+              );
+            })}
           </div>
         </div>
 
@@ -278,7 +371,7 @@ export default function IntroSection({ language }: IntroSectionProps) {
             right: '4rem',
             fontSize: '1rem',
             color: theme.colors.mediumGray,
-            fontWeight: '600',
+            fontWeight: 600,
             letterSpacing: '0.1em',
           }}
         >

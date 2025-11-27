@@ -71,7 +71,7 @@ export default function Navigation({
       };
 
   return (
-    <nav style={navStyle}>
+    <nav className="brandbook-nav" style={navStyle}>
       <div
         style={{
           display: 'flex',
